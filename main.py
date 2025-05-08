@@ -8,8 +8,10 @@ while True:
     selected_story_data = random.choice(stories.all_stories)
     story_template = selected_story_data['template']
     required_placeholders = selected_story_data['placeholders']    
-    
+    story_title = selected_story_data.get('title', "A Mysterious Mad Lib")
+
     # User word entry
+    print(f"\nLet's play: {story_title.upper()}")
     print(f"\nThis story needs {len(required_placeholders)} words.")
     print("\nPlease enter the following words for the story:")
     user_inputs = {}
@@ -18,7 +20,7 @@ while True:
         user_inputs[placeholder] = user_word
 
     # Printing the story itself
-    print("\n--- Your Mad Libs Story ---")
+    print("\n" + "*" * 20 + "--- Your Mad Libs Story ---" + "*" * 20)
     final_story = story_template.format(**user_inputs)
     print(final_story)
 
@@ -54,4 +56,6 @@ while True:
         print("Thanks again for playing! Goodbye.")
         break
     else:
+        print("\n" + "=" * 40)
         print("Okay, let's play again!")
+        print("\n" + "=" * 40)
