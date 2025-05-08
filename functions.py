@@ -13,8 +13,8 @@ def select_random_story():
 def get_user_inputs_for_story(placeholders, story_title):
     # User inputs
     print(f"\nLet's play: {story_title.upper()}")
-    print(f"This story needs {len(placeholders)} words.")
-    print("Please enter the following words for the story:")
+    print("*" * 3 + f"This story needs {len(placeholders)} words." + "*" * 3)
+    print("\nPlease enter the following words for the story:")
 
     user_inputs = {}
     for placeholder in placeholders:
