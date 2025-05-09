@@ -2,7 +2,7 @@ import random
 import stories 
 
 def select_random_story():
-    # Pulls data from a stored story
+    """Pulls data from a stored story"""
     if not stories.all_stories:
         print("No stories found! Please add stories to stories.py")
         return None # Return None if no stories are available
@@ -11,7 +11,7 @@ def select_random_story():
     return selected_story_data
 
 def get_user_inputs_for_story(placeholders, story_title):
-    # User inputs
+    """User inputs"""
     print(f"\nLet's play: {story_title.upper()}")
     print("*" * 3 + f"This story needs {len(placeholders)} words." + "*" * 3)
     print("\nPlease enter the following words for the story:")
@@ -29,14 +29,14 @@ def get_user_inputs_for_story(placeholders, story_title):
     return user_inputs
 
 def build_and_display_story(template, inputs, title):
-    # Assembles and prints the story
+    """Assembles and prints the story"""
     print("\n" + "*" * 15 + f" {title.upper()} - YOUR COMPLETED MAD LIB! " + "*" * 15)
     final_story = template.format(**inputs)
     print(final_story)
     return final_story
 
 def handle_save_story(story_text, story_title):
-    # Saving the story as a text file
+    """Saving the story as a text file"""
     while True:
         save_choice = input("Would you like to save this story to a file? (Y/N): ").upper()
         if save_choice in ['Y', 'N']:
