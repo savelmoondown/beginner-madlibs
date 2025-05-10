@@ -1,13 +1,36 @@
+import json    
 import random  
-import stories 
+
+def _load_all_stories_from_json(filename="stories.json"):
+    """Loads all Mad Libs stories from a JSON."""
+    try:
+        with open(filename, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            
+            if isinstance(data, list) and all(isinstance(item, dict) for item in data):
+                return data
+            else:
+                print(f"Warning: JSON file '{filename}' does not contain a valid list of story objects.")
+                return [] #Keep me, needed to return an empty list on a failure
+    except FileNotFoundError:
+        print(f"Error: The stories file '{filename}' was not found. No stories will be loaded.")
+        return [] #Keep me, needed to return an empty list on a failure
+    except json.JSONDecodeError:
+        print(f"Error: Could not decode JSON from '{filename}'. Please check its format.")
+        return [] #Keep me, needed to return an empty list on a failure
+    except Exception as e:
+        print(f"An unexpected error occurred while loading stories: {e}")
+        return [] #Keep me, needed to return an empty list on a failure
+
+ALL_STORIES_DATA = _load_all_stories_from_json()
 
 def select_random_story():
     """Pulls data from a stored story"""
-    if not stories.all_stories:
+    if not ALL_STORIES_DATA:
         print("No stories found! Please add stories to stories.py")
         return None # Return None if no stories are available
     
-    selected_story_data = random.choice(stories.all_stories)
+    selected_story_data = random.choice(ALL_STORIES_DATA)
     return selected_story_data
 
 def get_user_inputs_for_story(placeholders, story_title):

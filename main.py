@@ -1,6 +1,5 @@
 import functions
 import random
-import stories
 
 print("Welcome to Savel's Mad Libs Generator!")
 
