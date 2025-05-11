@@ -1,37 +1,50 @@
 import json    
 import random  
+from collections import namedtuple
+
+"""This is setting my named tuple"""
+Story = namedtuple("Story", ["title", "template", "placeholders"])
 
 def _load_all_stories_from_json(filename="stories.json"):
-    """Loads all Mad Libs stories from a JSON."""
+    """Loads all Mad Libs stories from a JSON file and converts them to Story namedtuples."""
+    loaded_stories = [] 
     try:
         with open(filename, 'r', encoding='utf-8') as f:
             data = json.load(f)
-            
-            if isinstance(data, list) and all(isinstance(item, dict) for item in data):
-                return data
+            if isinstance(data, list):
+                for i, item_dict in enumerate(data): # item_dict is each dictionary from JSON
+                    if isinstance(item_dict, dict):
+                        # Extract data, providing defaults if keys are missing,
+                        # ensuring our namedtuple gets all its fields.
+                        title = item_dict.get("title", f"Untitled Story {i+1}")
+                        template = item_dict.get("template")
+                        placeholders = item_dict.get("placeholders")
+
+                        if template is not None and placeholders is not None and isinstance(placeholders, list):
+                            # Create a Story namedtuple instance
+                            loaded_stories.append(Story(title=title, template=template, placeholders=placeholders))
+                        else:
+                            print(f"Warning: Story at index {i} in '{filename}' is missing 'template' or 'placeholders', or placeholders is not a list. Skipping.")
+                    else:
+                        print(f"Warning: Item at index {i} in '{filename}' is not a dictionary. Skipping.")
             else:
-                print(f"Warning: JSON file '{filename}' does not contain a valid list of story objects.")
-                return [] #Keep me, needed to return an empty list on a failure
+                print(f"Warning: '{filename}' does not contain a list of story objects.")
     except FileNotFoundError:
         print(f"Error: The stories file '{filename}' was not found. No stories will be loaded.")
-        return [] #Keep me, needed to return an empty list on a failure
     except json.JSONDecodeError:
         print(f"Error: Could not decode JSON from '{filename}'. Please check its format.")
-        return [] #Keep me, needed to return an empty list on a failure
     except Exception as e:
         print(f"An unexpected error occurred while loading stories: {e}")
-        return [] #Keep me, needed to return an empty list on a failure
+    
+    return loaded_stories # Return the list of Story namedtuples
 
 ALL_STORIES_DATA = _load_all_stories_from_json()
 
 def select_random_story():
-    """Pulls data from a stored story"""
+    """Selects a random story (which is a Story namedtuple) from the loaded stories."""
     if not ALL_STORIES_DATA:
-        print("No stories found! Please add stories to stories.py")
-        return None # Return None if no stories are available
-    
-    selected_story_data = random.choice(ALL_STORIES_DATA)
-    return selected_story_data
+        return None 
+    return random.choice(ALL_STORIES_DATA)
 
 def get_user_inputs_for_story(placeholders, story_title):
     """User inputs"""
