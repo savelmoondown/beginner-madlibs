@@ -16,7 +16,7 @@
     }
     {
         "title": "A Rainy Day",
-        "template": "There was a terrible downpour and Mr.{last_name} hurried home carrying a {object} in a {type_of_container}. When he arrived home, his pet {animal} suprised the man, leaping into his {body_part} and knocking him over. When he fell the {container} broke open and the {object} scattered all over the floor.",
+        "template": "There was a tremendous downpour and Mr.{last_name} hurried home carrying a {object} in a {type_of_container}. When he arrived home, his pet {animal} suprised the man, leaping into his {body_part} and knocking him over. When he fell the {container} broke open and the {object} scattered all over the floor.",
         "placeholders": ["occupation", "character_name", "type_of_dwelling", "action_verb", "famous_landmark", "food_item", "silly_adjective", "another_noun"]
     }    
 ]
